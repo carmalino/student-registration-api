@@ -16,6 +16,7 @@ namespace studentRegistration.API.studentRegistration.Infrastructure
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<GetAllStudents>();
+            services.AddScoped<CreateStudent>();
             // Aquí vas agregando más casos de uso según los implementes
             return services;
         }
