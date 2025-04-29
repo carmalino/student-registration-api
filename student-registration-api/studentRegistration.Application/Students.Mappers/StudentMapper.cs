@@ -15,7 +15,7 @@ public static class StudentMapper
         };
     }
 
-    public static Student ToEntity(CreateStudentDto dto)
+    public static Student ToEntity(StudentCreateDto dto)
     {
         return new Student
         {
@@ -24,7 +24,7 @@ public static class StudentMapper
         };
     }
 
-    public static void UpdateEntity(Student student, UpdateStudentDto dto)
+    public static void UpdateEntity(Student student, StudentUpdateDto dto)
     {
         student.Name = dto.Name;
         student.Program = dto.Program;

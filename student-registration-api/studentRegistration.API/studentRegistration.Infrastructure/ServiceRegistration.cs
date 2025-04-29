@@ -1,4 +1,5 @@
-﻿using studentRegistration.Application.Students.UseCases;
+﻿using studentRegistration.Application.Interfaces;
+using studentRegistration.Application.Services;
 using studentRegistration.Domain.Repositories;
 using studentRegistration.Infrastructure.Repositories;
 
@@ -15,8 +16,8 @@ namespace studentRegistration.API.studentRegistration.Infrastructure
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<GetAllStudents>();
-            services.AddScoped<CreateStudent>();
+            services.AddScoped<IStudentService, StudentService>();
+
             // Aquí vas agregando más casos de uso según los implementes
             return services;
         }
