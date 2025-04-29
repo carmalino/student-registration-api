@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using studentRegistration.API.studentRegistration.Infrastructure;
+using studentRegistration.Infrastructure.Persistence;
+using System;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +11,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+
+builder.Services.AddDbContext<StudentRegistrationDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        new MySqlServerVersion(new Version(9, 3, 0))
+    )
+);
+
+//registro servicios de infraestructura
+builder.Services.AddInfrastructureServices();
+
+//registro casos de uso
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
