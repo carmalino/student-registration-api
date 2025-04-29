@@ -41,5 +41,12 @@ namespace studentRegistration.Infrastructure.Repositories
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
         }
+        public async Task<Student?> GetByIdWithSubjectsAsync(int id)
+        {
+            return await _context.Students
+                .Include(s => s.Subjects)
+                    .ThenInclude(ss => ss.Subject)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
     }
 }

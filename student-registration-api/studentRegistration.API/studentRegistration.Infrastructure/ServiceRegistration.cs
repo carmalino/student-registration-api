@@ -10,6 +10,8 @@ namespace studentRegistration.API.studentRegistration.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IProfessorRepository, ProfessorRepository>();
+            services.AddScoped<ISubjectRepository, SubjectRepository>();
             // Agrega aquí los otros repositorios
             return services;
         }
@@ -17,7 +19,7 @@ namespace studentRegistration.API.studentRegistration.Infrastructure
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IStudentService, StudentService>();
-
+            services.AddScoped<IProfessorService, ProfessorService>();
             // Aquí vas agregando más casos de uso según los implementes
             return services;
         }

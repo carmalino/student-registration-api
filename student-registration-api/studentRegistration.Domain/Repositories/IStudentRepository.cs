@@ -9,5 +9,6 @@ namespace studentRegistration.Domain.Repositories
         Task AddAsync(Student student);
         Task UpdateAsync(Student student);
         Task DeleteAsync(Student student);
+        Task<Student?> GetByIdWithSubjectsAsync(int id);
     }
 }

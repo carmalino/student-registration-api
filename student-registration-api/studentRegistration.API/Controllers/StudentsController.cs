@@ -51,6 +51,19 @@ namespace studentRegistration.API.Controllers
             var result = await _studentService.DeleteAsync(id);
             return result ? NoContent() : NotFound();
         }
+
+        [HttpPost("{id}/enroll-subjects")]
+        public async Task<IActionResult> EnrollSubjects(int id, EnrollSubjectsDto dto)
+        {
+            if (id != dto.StudentId) return BadRequest("El ID del estudiante no coincide con el cuerpo de la solicitud.");
+
+            var result = await _studentService.EnrollSubjectsAsync(dto);
+
+            if (!result.Success) return BadRequest(result.Message);
+
+            return Ok(result.Message);
+        }
+
     }
 }
 

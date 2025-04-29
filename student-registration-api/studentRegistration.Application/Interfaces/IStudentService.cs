@@ -9,5 +9,6 @@ namespace studentRegistration.Application.Interfaces
         Task<int> CreateAsync(StudentCreateDto dto);
         Task<bool> UpdateAsync(StudentUpdateDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<EnrollSubjectsResultDto> EnrollSubjectsAsync(EnrollSubjectsDto dto);
     }
 }

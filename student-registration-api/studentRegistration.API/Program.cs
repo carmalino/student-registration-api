@@ -2,8 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using studentRegistration.API.studentRegistration.Infrastructure;
 using studentRegistration.Infrastructure.Persistence;
 using System;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//// Eliminar referencias circulares
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 // Add services to the container.
 
