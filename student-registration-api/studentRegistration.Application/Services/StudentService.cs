@@ -126,6 +126,25 @@ namespace studentRegistration.Application.Services
             };
         }
 
+        public async Task<List<EnrolledSubjectDto>> GetSubjectsByStudentIdAsync(int studentId)
+        {
+            var student = await _repository.GetStudentWithSubjectsAsync(studentId);
+            if (student == null) return new List<EnrolledSubjectDto>();
+
+            var result = student.Subjects.Select(ss => new EnrolledSubjectDto
+            {
+                SubjectId = ss.Subject.Id,
+                SubjectName = ss.Subject.Name,
+                ProfessorName = ss.Subject.Professor.Name,
+                Classmates = ss.Subject.Students
+                    .Where(s => s.StudentId != studentId)
+                    .Select(s => s.Student.Name)
+                    .ToList()
+            }).ToList();
+
+            return result;
+        }
+
     }
 
 }

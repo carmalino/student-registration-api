@@ -10,5 +10,6 @@ namespace studentRegistration.Domain.Repositories
         Task UpdateAsync(Student student);
         Task DeleteAsync(Student student);
         Task<Student?> GetByIdWithSubjectsAsync(int id);
+        Task<Student?> GetStudentWithSubjectsAsync(int studentId);
     }
 }

@@ -64,6 +64,13 @@ namespace studentRegistration.API.Controllers
             return Ok(result.Message);
         }
 
+        [HttpGet("{id}/subjects")]
+        public async Task<IActionResult> GetSubjectsByStudent(int id)
+        {
+            var subjects = await _studentService.GetSubjectsByStudentIdAsync(id);
+            return Ok(subjects);
+        }
+
     }
 }
 

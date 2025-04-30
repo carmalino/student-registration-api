@@ -20,6 +20,7 @@ namespace studentRegistration.API.studentRegistration.Infrastructure
         {
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IProfessorService, ProfessorService>();
+            services.AddScoped<ISubjectService, SubjectService>();
             // Aquí vas agregando más casos de uso según los implementes
             return services;
         }

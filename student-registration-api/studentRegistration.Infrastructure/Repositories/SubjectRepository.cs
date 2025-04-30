@@ -13,7 +13,12 @@ namespace studentRegistration.Infrastructure.Repositories
         {
             _context = context;
         }
-
+        public async Task<List<Subject>> GetAllAsync()
+        {
+            return await _context.Subjects
+                .Include(s => s.Professor)
+                .ToListAsync();
+        }
         public async Task<List<Subject>> GetByIdsWithProfessorsAsync(List<int> ids)
         {
             return await _context.Subjects

@@ -10,5 +10,6 @@ namespace studentRegistration.Application.Interfaces
         Task<bool> UpdateAsync(StudentUpdateDto dto);
         Task<bool> DeleteAsync(int id);
         Task<EnrollSubjectsResultDto> EnrollSubjectsAsync(EnrollSubjectsDto dto);
+        Task<List<EnrolledSubjectDto>> GetSubjectsByStudentIdAsync(int studentId);
     }
 }

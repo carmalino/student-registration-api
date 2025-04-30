@@ -48,5 +48,17 @@ namespace studentRegistration.Infrastructure.Repositories
                     .ThenInclude(ss => ss.Subject)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
+        public async Task<Student?> GetStudentWithSubjectsAsync(int studentId)
+        {
+            return await _context.Students
+                .Include(s => s.Subjects)
+                    .ThenInclude(ss => ss.Subject)
+                        .ThenInclude(sub => sub.Professor)
+                .Include(s => s.Subjects)
+                    .ThenInclude(ss => ss.Subject)
+                        .ThenInclude(sub => sub.Students)
+                            .ThenInclude(ss2 => ss2.Student)
+                .FirstOrDefaultAsync(s => s.Id == studentId);
+        }
     }
 }
