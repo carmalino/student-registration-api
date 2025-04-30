@@ -75,6 +75,7 @@ namespace studentRegistration.Application.Services
 
         public async Task<EnrollSubjectsResultDto> EnrollSubjectsAsync(EnrollSubjectsDto dto)
         {
+            // 1. Cargar estudiante con sus inscripciones
             var student = await _repository.GetByIdWithSubjectsAsync(dto.StudentId);
             if (student == null)
             {
@@ -85,7 +86,8 @@ namespace studentRegistration.Application.Services
                 };
             }
 
-            if (student.Subjects.Count + dto.SubjectIds.Count > 3)
+            // 2. Validar número máximo de materias
+            if (dto.SubjectIds.Count > 3)
             {
                 return new EnrollSubjectsResultDto
                 {
@@ -94,37 +96,44 @@ namespace studentRegistration.Application.Services
                 };
             }
 
+            // 3. Obtener las materias solicitadas (con su profesor)
             var allSubjects = await _subjectRepository.GetByIdsWithProfessorsAsync(dto.SubjectIds);
 
-            var currentProfessors = student.Subjects.Select(s => s.Subject.ProfessorId).ToList();
-            var newProfessors = allSubjects.Select(s => s.ProfessorId).ToList();
-
-            if (newProfessors.Any(p => currentProfessors.Contains(p)))
+            // 4. Validar que no haya profesor repetido entre las nuevas
+            var professorIds = allSubjects.Select(s => s.ProfessorId).ToList();
+            if (professorIds.Distinct().Count() != professorIds.Count)
             {
                 return new EnrollSubjectsResultDto
                 {
                     Success = false,
-                    Message = "No se pueden inscribir materias con profesores ya asignados."
+                    Message = "No se pueden inscribir materias con el mismo profesor."
                 };
             }
 
-            foreach (var subject in allSubjects)
+            // 5. Reemplazar inscripciones existentes:
+            //    - Limpiar todas las materias actuales
+            student.Subjects.Clear();
+
+            //    - Agregar las nuevas
+            foreach (var subj in allSubjects)
             {
                 student.Subjects.Add(new StudentSubject
                 {
                     StudentId = student.Id,
-                    SubjectId = subject.Id
+                    SubjectId = subj.Id
                 });
             }
 
+            // 6. Persistir cambios
             await _repository.UpdateAsync(student);
 
             return new EnrollSubjectsResultDto
             {
                 Success = true,
-                Message = "Materias inscritas exitosamente."
+                Message = "Inscripción actualizada exitosamente."
             };
         }
+
 
         public async Task<List<EnrolledSubjectDto>> GetSubjectsByStudentIdAsync(int studentId)
         {
